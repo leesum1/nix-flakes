@@ -9,9 +9,9 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        legacyPackages = import ./default.nix { inherit pkgs; };
+        # legacyPackages = import ./default.nix { inherit pkgs; };
       in {
         packages = nixpkgs.lib.filterAttrs (_: v: nixpkgs.lib.isDerivation v)
-          legacyPackages;
+          (import ./default.nix { inherit pkgs; });
       });
 }
