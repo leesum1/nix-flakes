@@ -1,6 +1,6 @@
 { stdenv, fetchFromGitHub # 废话
 , cmake # 使用cmake进行构建
-, swig }:
+, swig, python3 }:
 
 let
   version = "1.0";
@@ -27,7 +27,7 @@ in stdenv.mkDerivation {
   dontFixCmake = true;
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ swig ];
+  buildInputs = [ swig python3 ];
 
   patchPhase = ''
     # Create the destination directory: dependence/xcomm
@@ -35,5 +35,10 @@ in stdenv.mkDerivation {
 
     # Copy xcomm source
     cp -r ${xcomm_src}/* dependence/xcomm
+  '';
+  preConfigure = ''
+    # Create the build directory
+    # mkdir -p build
+    export BUILD_XSPCOMM_SWIG=python
   '';
 }
